@@ -9,6 +9,8 @@ namespace InversionOfControl
     {
         public static void Main()
         {
+            Console.ForegroundColor = ConsoleColor.Green;
+
             var container = new Container(rules => rules.WithoutThrowOnRegisteringDisposableTransient());
 
             RegisterTypes(container);
@@ -28,6 +30,10 @@ namespace InversionOfControl
             ResolvingLazy(container);
             ResolvingCollections(container);
             ResolvingFuncs(container);
+
+            GeneralGuidelines();
+
+            Console.Read();
         }
 
         private static void RegisterTypes(Container container)
@@ -149,6 +155,8 @@ namespace InversionOfControl
             var containsLazyService = container.Resolve<IContainsLazyService>();
 
             containsLazyService.UseLazyService();
+
+            // Could be good for performance because it delays the call to the constructor until necessary.
         }
 
         public static void ResolvingCollections(Container container)
@@ -158,6 +166,14 @@ namespace InversionOfControl
             container.Register<IContainsCollectionService, ContainsCollectionService>(Reuse.Singleton);
 
             var containsCollectionService = container.Resolve<IContainsCollectionService>();
+
+            // Disparate parts of an application can provide an implementation.
+
+            // It's often useful for IFooService to filter, group or order the collection of services injected into
+            // your class. To do this, it can be helpful to add Order, Group or other properties to IFooService.
+
+            // If IFooService needs some state to work on from the parent class IContainsCollectionService,
+            // it's often useful to pass some metadata to a method on IFooService
         }
 
         public static void ResolvingFuncs(Container container)
@@ -167,6 +183,40 @@ namespace InversionOfControl
             var containsFuncService = container.Resolve<IContainsFuncService>();
 
             containsFuncService.CreateInstances();
+
+            // Useful when you need to create N number of instances of a type on demand.
+
+            // Be careful, you control the lifetime of the types.
+
+
+        }
+
+        public static void GeneralGuidelines()
+        {
+            Console.WriteLine(@"  _____                           _  _____       _     _      _ _                 ");
+            Console.WriteLine(@" / ____|                         | |/ ____|     (_)   | |    | (_)                ");
+            Console.WriteLine(@"| |  __  ___ _ __   ___ _ __ __ _| | |  __ _   _ _  __| | ___| |_ _ __   ___  ___ ");
+            Console.WriteLine(@"| | |_ |/ _ \ '_ \ / _ \ '__/ _` | | | |_ | | | | |/ _` |/ _ \ | | '_ \ / _ \/ __|");
+            Console.WriteLine(@"| |__| |  __/ | | |  __/ | | (_| | | |__| | |_| | | (_| |  __/ | | | | |  __/\__ \");
+            Console.WriteLine(@" \_____|\___|_| |_|\___|_|  \__,_|_|\_____|\__,_|_|\__,_|\___|_|_|_| |_|\___||___/");
+            Console.WriteLine("");
+
+            Console.WriteLine("1. Don't pass the Container around in the app.");
+            Console.WriteLine();
+            Console.WriteLine("2. Avoid the service locator pattern, inject the types you need instead. Sometimes UI controls need a service from IoC, in this case use MEF or service locator.");
+            Console.WriteLine();
+            Console.WriteLine("3. If you're injecting more than 3-6 types into your class, your class is probably doing too much and should be split up. Testing is also a nightmare.");
+            Console.WriteLine();
+            Console.WriteLine("4. If you are using IoC container to setup your tests, that's probably an integration test and not a unit test.");
+            Console.WriteLine();
+            Console.WriteLine("5. The constructor is called by the IoC container. Some IoC containers allow you to pass custom arguments along but avoid this pattern and use properties or methods instead.");
+            Console.WriteLine();
+            Console.WriteLine("6. If you are manually new'ing up classes and passing arguments to the constructor that are governed by the IoC container, you're doing it wrong.");
+            Console.WriteLine();
+            Console.WriteLine("7. Think about the lifetimes of your types. Ensure that there is no conflicting lifetime composition.");
+            Console.WriteLine();
+            Console.WriteLine("8. Congratulations, you've used IoC and made your code easier to test. However, there is more to making your code testable e.g. you have to actually write the tests, public vs private methods, mocking time etc.");
+            Console.WriteLine();
         }
     }
 }
