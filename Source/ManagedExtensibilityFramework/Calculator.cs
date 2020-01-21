@@ -5,7 +5,7 @@ namespace ManagedExtensibilityFramework
     using System.ComponentModel.Composition;
 
     [Export(typeof(ICalculator))]
-    public class MySimpleCalculator : ICalculator
+    public class Calculator : ICalculator
     {
         [ImportMany]
         public IEnumerable<Lazy<IOperation, IOperationData>> Operations { get; set; }

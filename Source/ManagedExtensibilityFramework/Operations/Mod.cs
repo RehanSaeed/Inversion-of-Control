@@ -1,4 +1,4 @@
-namespace ManagedExtensibilityFramework
+namespace ManagedExtensibilityFramework.Operations
 {
     using System.ComponentModel.Composition;
 

@@ -11,6 +11,7 @@ namespace InversionOfControl.Services
 
         public void UseLazyService()
         {
+            Console.WriteLine($"{nameof(ITransientService)} instantiated.{Environment.NewLine}");
             var transientService = this.TransientService.Value;
             // Do something.
         }

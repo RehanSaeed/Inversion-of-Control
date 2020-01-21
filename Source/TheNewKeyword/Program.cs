@@ -15,11 +15,15 @@ namespace TheNewKeyword
             // Create an instance without calling the constructor.
             var program2 = FormatterServices.GetUninitializedObject(typeof(Program));
 
+            // Totally Dynamic
+
             // Create an instance using reflection (slow).
             var program3 = typeof(Program).GetConstructor(Array.Empty<Type>()).Invoke(null);
 
             // Create an instance using dynamically (slow).
             var program4 = Activator.CreateInstance<Program>();
+
+            // Runtime Compiled
 
             // Create an instance using expression trees (medium speed).
             var createProgram1 = Expression.Lambda<Func<Program>>(Expression.New(typeof(Program))).Compile();
@@ -33,6 +37,8 @@ namespace TheNewKeyword
             il.Emit(OpCodes.Ret);
             var createProgram2 = (Func<Program>)dynamicMethod.CreateDelegate(typeof(Func<Program>));
             var program6 = createProgram2();
+
+            // Pre-Compiled
 
             // Using T4 templates or new templating engine to generate design time code which uses the new keyword (fast).
             // Not shown

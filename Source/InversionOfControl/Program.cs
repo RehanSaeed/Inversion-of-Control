@@ -187,8 +187,6 @@ namespace InversionOfControl
             // Useful when you need to create N number of instances of a type on demand.
 
             // Be careful, you control the lifetime of the types.
-
-
         }
 
         public static void GeneralGuidelines()
@@ -203,19 +201,24 @@ namespace InversionOfControl
 
             Console.WriteLine("1. Don't pass the Container around in the app.");
             Console.WriteLine();
-            Console.WriteLine("2. Avoid the service locator pattern, inject the types you need instead. Sometimes UI controls need a service from IoC, in this case use MEF or service locator.");
+            Console.WriteLine("2. Avoid the service locator pattern.");
             Console.WriteLine();
-            Console.WriteLine("3. If you're injecting more than 3-6 types into your class, your class is probably doing too much and should be split up. Testing is also a nightmare.");
+            Console.WriteLine("3. If you're injecting more than 3-6 types into your class, your class is probably doing");
+            Console.WriteLine("   too much and should be split up. Testing is also a nightmare.");
             Console.WriteLine();
-            Console.WriteLine("4. If you are using IoC container to setup your tests, that's probably an integration test and not a unit test.");
+            Console.WriteLine("4. IoC makes your code easier to test. However, you have to actually write the tests!");
             Console.WriteLine();
-            Console.WriteLine("5. The constructor is called by the IoC container. Some IoC containers allow you to pass custom arguments along but avoid this pattern and use properties or methods instead.");
+            Console.WriteLine("5. If you are using an IoC container to setup your tests, that's probably an integration");
+            Console.WriteLine("   test and not a unit test.");
             Console.WriteLine();
-            Console.WriteLine("6. If you are manually new'ing up classes and passing arguments to the constructor that are governed by the IoC container, you're doing it wrong.");
+            Console.WriteLine("6. If you are manually new'ing up classes and passing arguments to the constructor that");
+            Console.WriteLine("   are governed by the IoC container, you're probably doing it wrong.");
             Console.WriteLine();
-            Console.WriteLine("7. Think about the lifetimes of your types. Ensure that there is no conflicting lifetime composition.");
+            Console.WriteLine("7. Think about the lifetimes of your types. Ensure that there is no conflicting");
+            Console.WriteLine("   lifetime composition. Use validation if available.");
             Console.WriteLine();
-            Console.WriteLine("8. Congratulations, you've used IoC and made your code easier to test. However, there is more to making your code testable e.g. you have to actually write the tests, public vs private methods, mocking time etc.");
+            Console.WriteLine("8. Some IoC containers allow you to pass custom arguments to the constructor but avoid");
+            Console.WriteLine("   this pattern and use properties or methods instead.");
             Console.WriteLine();
         }
     }
