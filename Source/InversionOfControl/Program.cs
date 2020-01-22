@@ -217,9 +217,6 @@ namespace InversionOfControl
             Console.WriteLine("7. Think about the lifetimes of your types. Ensure that there is no conflicting");
             Console.WriteLine("   lifetime composition. Use validation if available.");
             Console.WriteLine();
-            Console.WriteLine("8. Some IoC containers allow you to pass custom arguments to the constructor but avoid");
-            Console.WriteLine("   this pattern and use properties or methods instead.");
-            Console.WriteLine();
         }
     }
 }
